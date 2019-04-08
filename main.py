@@ -16,6 +16,7 @@ app = Starlette(debug=False)
 REPLY_URL = 'https://api.line.me/v2/bot/message/reply'
 UBIKE_URL = 'https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.gz'
 
+MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN")
 ACCESS_TOKEN = os.getenv("CHANNEL_TOKEN")
 
 def distance(origin, destination):
@@ -64,8 +65,91 @@ async def homepage(request):
                 res.append((distance(query_lat_lng, ea), lat_lng_dict[ea]))
             top3 = sorted(res, key=lambda x: x[0])[:3]
             # pprint(top3)
-        msg = [{'type': "location", "title": stn[1].get('sna'), "address": stn[1].get('ar'), "latitude": stn[1].get('lat'), "longitude": stn[1].get('lng')} for stn in top3]
+        # msg = [{'type': "location", "title": stn[1].get('sna'), "address": stn[1].get('ar'), "latitude": stn[1].get('lat'), "longitude": stn[1].get('lng')} for stn in top3]
         # pprint(msg)
+        msg = []
+        for stn in top3:
+            ele = {
+              "type": "bubble",
+              "hero": {
+                "type": "image",
+                "size": "full",
+                "aspectRatio": "20:13",
+                "aspectMode": "cover",
+                "url": "https://api.mapbox.com/v4/mapbox.emerald/pin-s-heart+285A98({lng},{lat})/{lng},{lat},17/300x300@2x.png?access_token={access_token}".format(lng=stn[1].get('lng'),lat=stn[1].get('lat'),access_token=MAPBOX_ACCESS_TOKEN)
+              },
+              "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "{title}".format(title=stn[1].get('sna')),
+                    "wrap": True,
+                    "weight": "bold",
+                    "size": "xl"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "$49",
+                        "wrap": True,
+                        "weight": "bold",
+                        "size": "xl",
+                        "flex": 0
+                      },
+                      {
+                        "type": "text",
+                        "text": ".99",
+                        "wrap": True,
+                        "weight": "bold",
+                        "size": "sm",
+                        "flex": 0
+                      }
+                    ]
+                  }
+                ]
+              },
+              "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "button",
+                    "style": "primary",
+                    "action": {
+                      "type": "uri",
+                      "label": "Show on Google Maps",
+                      "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng'),lat=stn[1].get('lat'))
+                    }
+                  },
+                  {
+                    "type": "button",
+                    "action": {
+                      "type": "uri",
+                      "label": "Add to wishlist",
+                      "uri": "https://linecorp.com"
+                    }
+                  }
+                ]
+              }
+            }
+            msg.append(ele)
+        flx_msg = {
+          "type": "carousel",
+          "contents": msg
+        }
+        msg = [
+                {"type": "flex",
+                    "altText": "text",
+                    "contents": flx_msg}
+
+                ]
 
         resp = {
                 'replyToken': body.get('events')[0].get('replyToken'),
