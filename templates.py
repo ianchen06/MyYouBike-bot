@@ -19,10 +19,10 @@ def make_render_stn(query_lat_lng):
                 "contents": [
                         {
                             "type": "text",
-                            "text": "{title}".format(title=stn[1].get('sna')),
+                            "text": "{title}[{dist}m]".format(title=stn[1].get('sna'), dist=int(stn[0] * 1000)),
                             "wrap": True,
-                            "weight": "bold",
-                            "size": "xl"
+                            # "weight": "bold",
+                            "size": "lg"
                         },
                     {
                             "type": "box",
