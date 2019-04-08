@@ -21,7 +21,7 @@ async def homepage(request):
         reply_token = body.get('events')[0].get('replyToken')
         rcv_msg = body.get('events')[0].get('message')
 
-        if rcv_msg.get('type') == 'location':
+        if rcv_msg.get('type', '') == 'location':
             resp = await handlers.handle_location(rcv_msg, reply_token)
         else:
             qr = {
