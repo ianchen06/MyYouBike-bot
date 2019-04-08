@@ -109,6 +109,9 @@ async def homepage(request):
         #         'replyToken': body.get('events')[0].get('replyToken'),
         #         'messages': [body.get('events')[0].get('message')]
         #         }
+
+        # TODO: display direction to ubike station
+        # https://www.google.com/maps/dir/?api=1&origin=Space+Needle+Seattle+WA&destination=Pike+Place+Market+Seattle+WA&travelmode=bicycling
         async with aiohttp.ClientSession() as session:
             bike_data = await fetch_youbike(session)
         bike_data_list = [v for k,v in json.loads(bike_data).get('retVal').items()]
