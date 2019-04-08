@@ -117,7 +117,8 @@ async def homepage(request):
         bike_data_list = [v for k,v in json.loads(bike_data).get('retVal').items()]
         # pprint({(v.get('lat'), v.get('lng')): v for v in bike_data_list})
     async with aiohttp.ClientSession() as session:
-        await reply(session, resp)
+        r = await reply(session, resp)
+        print(r)
     return JSONResponse(resp)
 
 if __name__ == '__main__':
