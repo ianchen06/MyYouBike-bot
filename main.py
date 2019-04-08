@@ -12,6 +12,7 @@ app = Starlette(debug=False)
 
 @app.route('/', methods=['GET', 'POST'])
 async def homepage(request):
+    print(request.method)
     if request.method == "GET":
         resp = {"status": "ok"}
         return JSONResponse(resp)
