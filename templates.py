@@ -43,7 +43,7 @@ def make_render_stn(query_lat_lng):
                                     "flex": 0
                                 }
                             ]
-                        }
+                    }
                 ]
             },
             "footer": {
@@ -59,7 +59,7 @@ def make_render_stn(query_lat_lng):
                                 "label": "用Google Maps開啟",
                                 "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
                             }
-                        }#,
+                        }  # ,
                     # {
                     #         "type": "button",
                     #         "action": {
