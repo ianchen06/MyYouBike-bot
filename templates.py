@@ -50,23 +50,23 @@ def make_render_stn(query_lat_lng):
                             "style": "primary",
                             "action": {
                                 "type": "uri",
-                                "label": "用Google Map開啟",
+                                "label": "用Google Maps開啟",
                                 "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
                             }
-                        },
-                    {
-                            "type": "button",
-                            "action": {
-                                "type": "uri",
-                                "label": "帶我去",
-                                "uri": "https://www.google.com/maps/dir/?api=1&origin={origin_lat},{origin_lng}&destination={dest_lat},{dest_lng}&travelmode=walking".format(
-                                    origin_lat=query_lat_lng[0],
-                                    origin_lng=query_lat_lng[1],
-                                    dest_lat=stn[1].get('lat').strip(),
-                                    dest_lng=stn[1].get('lng').strip()
-                                )
-                            }
-                        }
+                        }#,
+                    # {
+                    #         "type": "button",
+                    #         "action": {
+                    #             "type": "uri",
+                    #             "label": "帶我去",
+                    #             "uri": "https://www.google.com/maps/dir/?api=1&origin={origin_lat},{origin_lng}&destination={dest_lat},{dest_lng}&travelmode=walking".format(
+                    #                 origin_lat=query_lat_lng[0],
+                    #                 origin_lng=query_lat_lng[1],
+                    #                 dest_lat=stn[1].get('lat').strip(),
+                    #                 dest_lng=stn[1].get('lng').strip()
+                    #             )
+                    #         }
+                    #     }
                 ]
             }
         }

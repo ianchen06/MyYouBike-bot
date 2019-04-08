@@ -24,6 +24,7 @@ async def handle_location(rcv_msg, reply_token):
     render_stn = templates.make_render_stn(query_lat_lng)
     for stn in top3:
         msg.append(render_stn(stn))
+    msg = msg[::-1]
     print(msg)
     flx_msg = {
         "type": "carousel",
