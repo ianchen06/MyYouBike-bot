@@ -10,7 +10,12 @@ def make_render_stn(query_lat_lng):
                     "size": "full",
                     "aspectRatio": "20:13",
                     "aspectMode": "cover",
-                    "url": "https://api.mapbox.com/v4/mapbox.emerald/pin-s-heart+285A98({lng},{lat})/{lng},{lat},17/300x300@2x.png?access_token={access_token}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip(), access_token=MAPBOX_ACCESS_TOKEN)
+                    "url": "https://api.mapbox.com/v4/mapbox.emerald/pin-s-heart+285A98({lng},{lat})/{lng},{lat},17/300x300@2x.png?access_token={access_token}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip(), access_token=MAPBOX_ACCESS_TOKEN),
+                    "action": {
+                        "type": "uri",
+                        "label": "用Google Maps開啟",
+                        "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
+                    }
             },
             "body": {
                 "type": "box",
@@ -22,7 +27,8 @@ def make_render_stn(query_lat_lng):
                             "text": "{title}[{dist}m]".format(title=stn[1].get('sna'), dist=int(stn[0] * 1000)),
                             "wrap": True,
                             # "weight": "bold",
-                            "size": "lg"
+                            "size": "lg",
+                            "color": "#929292"
                         },
                     {
                             "type": "box",
