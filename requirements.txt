@@ -8,12 +8,11 @@ chardet == 3.0.4
 Click == 7.0
 h11 == 0.8.1
 httptools == 0.0.13
-idna == 2.8
+idna - ssl == 1.1.0
 multidict == 4.5.2
 pycares == 3.0.0
 pycparser == 2.19
 starlette == 0.11.4
-typing == 3.6.6
 typing - extensions == 3.7.2
 uvicorn == 0.6.1
 uvloop == 0.12.2
