@@ -18,8 +18,9 @@ async def homepage(request):
         return JSONResponse(resp)
     if request.method == "POST":
         body = await request.json()
+        print(body)
         reply_token = body.get('events')[0].get('replyToken')
-        rcv_msg = body.get('events')[0].get('message')
+        rcv_msg = body.get('events')[0].get('message', {})
 
         if rcv_msg.get('type', '') == 'location':
             resp = await handlers.handle_location(rcv_msg, reply_token)
