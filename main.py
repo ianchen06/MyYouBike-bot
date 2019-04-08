@@ -73,9 +73,42 @@ async def homepage(request):
                 }
     else:
         resp = {
-                'replyToken': body.get('events')[0].get('replyToken'),
-                'messages': [body.get('events')[0].get('message')]
+                "type": "text", // ①
+                "text": "Select your favorite food category or send me your location!",
+                "quickReply": { // ②
+                    "items": [
+                        {
+                            "type": "action", // ③
+                            "imageUrl": "https://example.com/sushi.png",
+                            "action": {
+                                "type": "message",
+                                "label": "Sushi",
+                                "text": "Sushi"
+                                }
+                            },
+                        {
+                            "type": "action",
+                            "imageUrl": "https://example.com/tempura.png",
+                            "action": {
+                                "type": "message",
+                                "label": "Tempura",
+                                "text": "Tempura"
+                                }
+                            },
+                        {
+                            "type": "action", // ④
+                            "action": {
+                                "type": "location",
+                                "label": "Send location"
+                                }
+                            }
+                        ]
+                    }
                 }
+        # resp = {
+        #         'replyToken': body.get('events')[0].get('replyToken'),
+        #         'messages': [body.get('events')[0].get('message')]
+        #         }
         async with aiohttp.ClientSession() as session:
             bike_data = await fetch_youbike(session)
         bike_data_list = [v for k,v in json.loads(bike_data).get('retVal').items()]
