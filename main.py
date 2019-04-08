@@ -96,18 +96,10 @@ async def homepage(request):
                     "contents": [
                       {
                         "type": "text",
-                        "text": "$49",
+                        "text": "{no_rentable} 可借/{no_returnable} 可還".format(no_rentable=int(stn[1].get('sbi')),no_returnable=int(stn[1].get('tot'))-int(stn[1].get('sbi'))),
                         "wrap": True,
                         "weight": "bold",
                         "size": "xl",
-                        "flex": 0
-                      },
-                      {
-                        "type": "text",
-                        "text": ".99",
-                        "wrap": True,
-                        "weight": "bold",
-                        "size": "sm",
                         "flex": 0
                       }
                     ]
@@ -124,7 +116,7 @@ async def homepage(request):
                     "style": "primary",
                     "action": {
                       "type": "uri",
-                      "label": "Show on Google Maps",
+                      "label": "用Google Map開啟",
                       "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng'),lat=stn[1].get('lat'))
                     }
                   },
@@ -132,8 +124,13 @@ async def homepage(request):
                     "type": "button",
                     "action": {
                       "type": "uri",
-                      "label": "Add to wishlist",
-                      "uri": "https://linecorp.com"
+                      "label": "帶我去",
+                      "uri": "https://www.google.com/maps/dir/?api=1&origin={origin_lat},{origin_lng}&destination={dest_lat},{dest_lng}&travelmode=walking".format(
+                          origin_lat=query_lat_lng[0],
+                          origin_lng=query_lat_lng[1],
+                          dest_lat=stn[1].get('lat'),
+                          dest_lng=stn[1].get('lng')
+                          )
                     }
                   }
                 ]
