@@ -5,3 +5,5 @@ UBIKE_URL = 'https://tcgbusfs.blob.core.windows.net/blobyoubike/YouBikeTP.gz'
 
 MAPBOX_ACCESS_TOKEN = os.getenv("MAPBOX_ACCESS_TOKEN")
 ACCESS_TOKEN = os.getenv("CHANNEL_TOKEN")
+
+APP_URL = os.getenv("APP_URL") or '7162af34.ngrok.io'

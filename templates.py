@@ -1,6 +1,30 @@
 from config import *
 
 
+def render_google_maps(args):
+    return """<!doctype html>
+<html>
+<head>
+    <script>
+    window.onload = function() {{
+      console.log(navigator.userAgent)
+      console.log(navigator.userAgent.indexOf('iPhone'))
+      if(navigator.userAgent.indexOf('iPhone') > -1){{
+        window.location = "comgooglemapsurl://www.google.com/maps/search/?api=1&query={lat},{lng}"
+      }} else if(navigator.userAgent.indexOf('Android') > -1){{
+        window.location = "https://www.google.com/maps/search/?api=1&query={lat},{lng}"
+      }} else {{
+        window.location = "https://www.google.com/maps/search/?api=1&query={lat},{lng}"
+      }}
+      setTimeout(x=>window.location="https://www.google.com/maps/search/?api=1&query={lat},{lng}", 2000)
+    }}
+    </script>
+</head>
+<body>
+</body>
+</html>""".format(lng=args.query_params['lng'], lat=args.query_params['lat'])
+
+
 def make_render_stn(query_lat_lng):
     def render_stn(stn):
         return {
@@ -14,7 +38,7 @@ def make_render_stn(query_lat_lng):
                     "action": {
                         "type": "uri",
                         "label": "用Google Maps開啟",
-                        "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
+                        "uri": "https://{app_url}/maps?lat={lat}&lng={lng}".format(app_url=APP_URL, lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
                     }
             },
             "body": {
@@ -43,7 +67,7 @@ def make_render_stn(query_lat_lng):
                                     "flex": 0
                                 }
                             ]
-                    }
+                            }
                 ]
             },
             "footer": {
@@ -57,7 +81,8 @@ def make_render_stn(query_lat_lng):
                             "action": {
                                 "type": "uri",
                                 "label": "用Google Maps開啟",
-                                "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
+                                # "uri": "https://www.google.com/maps/search/?api=1&query={lat},{lng}".format(lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
+                                "uri": "https://{app_url}/maps?lat={lat}&lng={lng}".format(app_url=APP_URL, lng=stn[1].get('lng').strip(), lat=stn[1].get('lat').strip())
                             }
                         }  # ,
                     # {

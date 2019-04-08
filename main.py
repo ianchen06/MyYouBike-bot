@@ -1,21 +1,27 @@
 import aiohttp
 from starlette.applications import Starlette
-from starlette.responses import JSONResponse
+from starlette.responses import HTMLResponse, JSONResponse
 import uvicorn
 
 import utils
 from config import *
 import handlers
+import templates
 
 app = Starlette(debug=False)
+
+
+@app.route('/maps', methods=['GET'])
+async def proxy(request):
+    resp = templates.render_google_maps(request)
+    return HTMLResponse(resp)
 
 
 @app.route('/', methods=['GET', 'POST'])
 async def homepage(request):
     print(request.method)
     if request.method == "GET":
-        resp = {"status": "ok"}
-        return JSONResponse(resp)
+        return HTMLResponse('hi')
     if request.method == "POST":
         body = await request.json()
         print(body)
