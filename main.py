@@ -72,7 +72,7 @@ async def homepage(request):
                 'messages': msg
                 }
     else:
-        resp = {
+        qr = {
                 "type": "text",
                 "text": "Select your favorite food category or send me your location!",
                 "quickReply": {
@@ -105,10 +105,10 @@ async def homepage(request):
                         ]
                     }
                 }
-        # resp = {
-        #         'replyToken': body.get('events')[0].get('replyToken'),
-        #         'messages': [body.get('events')[0].get('message')]
-        #         }
+        resp = {
+                'replyToken': body.get('events')[0].get('replyToken'),
+                'messages': [qr]
+                }
 
         # TODO: display direction to ubike station
         # https://www.google.com/maps/dir/?api=1&origin=Space+Needle+Seattle+WA&destination=Pike+Place+Market+Seattle+WA&travelmode=bicycling
