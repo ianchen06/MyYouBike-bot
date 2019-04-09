@@ -3,6 +3,9 @@ import math
 from config import *
 
 
+async def fetch_taoyuan_youbike(session):
+    return await fetch(session, TAOYUAN_UBIKE_URL)
+
 async def fetch_youbike(session):
     return await fetch(session, UBIKE_URL)
 
