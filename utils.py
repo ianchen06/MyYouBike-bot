@@ -1,19 +1,26 @@
 import json
 import math
+import time
 
 from config import *
 
 
 async def fetch_and_parse_taoyuan(session):
+    # t1 = time.time()
     resp = await fetch(session, TAOYUAN_UBIKE_URL)
+    # print("[fetch_and_parse_taoyuan] start: %s, used: %s"%(t1, time.time() - t1))
     return [v for k, v in json.loads(resp).get('retVal').items()]
 
 async def fetch_and_parse_tpe(session):
+    # t1 = time.time()
     resp = await fetch(session, UBIKE_URL)
+    # print("[fetch_and_parse_tpe] start: %s, %s"%(t1, time.time() - t1))
     return [v for k, v in json.loads(resp).get('retVal').items()]
 
 async def fetch_and_parse_newtpe(session):
+    # t1 = time.time()
     resp = await fetch(session, NEWTPE_UBIKE_URL)
+    # print("[fetch_and_parse_newtpe] start: %s, %s"%(t1, time.time() - t1))
     return json.loads(resp).get('result').get('records')
 
 
