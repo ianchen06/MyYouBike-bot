@@ -13,9 +13,18 @@ async def handle_location(rcv_msg, reply_token):
     async with aiohttp.ClientSession() as session:
         wg = await asyncio.gather(*[utils.fetch_and_parse_tpe(session),
                                     utils.fetch_and_parse_newtpe(session),
+                                    utils.fetch_and_parse_tainan(session),
+                                    # utils.fetch_and_parse_hsinchu(session),
                                     utils.fetch_and_parse_taoyuan(session)])
     # TODO: This assumes TPE and Taoyuan ubike data schema is the same
     # Hsinchu is different....
+    # schema
+    # {"sbi": <rentable: int>,
+    #  "sna": <station_name: str>,
+    #  "tot": <total_slots: int>,
+    #  "lat": <lat: str>,
+    #  "lng": <lng: str>,
+    # }
     bike_data_list = []
     for d in wg:
         bike_data_list.extend(d)

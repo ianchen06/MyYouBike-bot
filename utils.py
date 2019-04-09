@@ -4,6 +4,37 @@ import time
 
 from config import *
 
+# TODO: BORKEN.....
+async def fetch_and_parse_hsinchu(session):
+    # t1 = time.time()
+    resp = await fetch(session, HSHINCHU_YOUBIKE_URL)
+    # print("[fetch_and_parse_taoyuan] start: %s, used: %s"%(t1, time.time() - t1))
+    print(resp)
+    data = []
+    for r in json.loads(resp):
+        d = {"sbi": r.get('車柱數'),
+             "sna": r.get('站點名稱'),
+             "tot": r.get('車柱數'),
+             "lat": str(r.get('緯度')),
+             "lng": str(r.get('經度'))}
+        data.append(d)
+
+    return data
+
+async def fetch_and_parse_tainan(session):
+    # t1 = time.time()
+    resp = await fetch(session, TAINAN_TBIKE_URL)
+    # print("[fetch_and_parse_taoyuan] start: %s, used: %s"%(t1, time.time() - t1))
+    data = []
+    for r in json.loads(resp):
+        d = {"sbi": r.get('AvaliableBikeCount'),
+             "sna": r.get('StationName'),
+             "tot": r.get('Capacity'),
+             "lat": str(r.get('Latitude')),
+             "lng": str(r.get('Longitude'))}
+        data.append(d)
+
+    return data
 
 async def fetch_and_parse_taoyuan(session):
     # t1 = time.time()
@@ -26,7 +57,7 @@ async def fetch_and_parse_newtpe(session):
 
 async def fetch(session, url):
     async with session.get(url) as response:
-        return await response.text()
+        return await response.text(encoding='utf-8')
 
 
 async def reply(session, data):
