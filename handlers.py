@@ -1,5 +1,4 @@
 import asyncio
-import json
 import aiohttp
 
 import templates
@@ -12,13 +11,14 @@ async def handle_location(rcv_msg, reply_token):
             rcv_msg.get('latitude')), float(
             rcv_msg.get('longitude')),)
     async with aiohttp.ClientSession() as session:
-        wg = await asyncio.gather(*[utils.fetch_youbike(session),
-                                    utils.fetch_taoyuan_youbike(session)])
+        wg = await asyncio.gather(*[utils.fetch_and_parse_tpe(session),
+                                    utils.fetch_and_parse_newtpe(session),
+                                    utils.fetch_and_parse_taoyuan(session)])
     # TODO: This assumes TPE and Taoyuan ubike data schema is the same
     # Hsinchu is different....
     bike_data_list = []
-    for resp in wg:
-        bike_data_list.extend([v for k, v in json.loads(resp).get('retVal').items()])
+    for d in wg:
+        bike_data_list.extend(d)
 
     # All bike data in dict {(lat,lng): <youbike_data:dict>}
     lat_lng_dict = {(float(v.get('lat')), float(v.get('lng'))): v for v in bike_data_list}

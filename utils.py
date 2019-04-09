@@ -1,13 +1,20 @@
+import json
 import math
 
 from config import *
 
 
-async def fetch_taoyuan_youbike(session):
-    return await fetch(session, TAOYUAN_UBIKE_URL)
+async def fetch_and_parse_taoyuan(session):
+    resp = await fetch(session, TAOYUAN_UBIKE_URL)
+    return [v for k, v in json.loads(resp).get('retVal').items()]
 
-async def fetch_youbike(session):
-    return await fetch(session, UBIKE_URL)
+async def fetch_and_parse_tpe(session):
+    resp = await fetch(session, UBIKE_URL)
+    return [v for k, v in json.loads(resp).get('retVal').items()]
+
+async def fetch_and_parse_newtpe(session):
+    resp = await fetch(session, NEWTPE_UBIKE_URL)
+    return json.loads(resp).get('result').get('records')
 
 
 async def fetch(session, url):
