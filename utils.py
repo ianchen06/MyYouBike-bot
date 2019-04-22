@@ -56,8 +56,12 @@ async def fetch_and_parse_newtpe(session):
 
 
 async def fetch(session, url):
-    async with session.get(url) as response:
-        return await response.text(encoding='utf-8')
+    try:
+        async with session.get(url) as response:
+            return await response.text(encoding='utf-8')
+    except Exception as e:
+        print("[ERROR][%s]%s"%(url, e))
+        return []
 
 
 async def reply(session, data):
