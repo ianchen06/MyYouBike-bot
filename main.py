@@ -22,7 +22,7 @@ async def process(body):
     else:
         qr = {
             "type": "text",
-            "text": "請傳送位置訊息給我",
+            "text": "問題回饋請洽：https://fb.me/myyoubike\n請傳送位置訊息給我",
             "quickReply": {
                     "items": [
                         {
